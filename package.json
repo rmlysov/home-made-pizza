@@ -2,11 +2,11 @@
   "name": "home-made-pizza",
   "version": "1.0.0",
   "description": "EPAM students practice",
-  "main": "index.js",
   "scripts": {
     "start:ui-kit": "cd ui-kit && npm start",
     "start:pizza-app": "cd pizza-app && npm start",
     "build:ui-kit": "cd ui-kit && npm run build",
+    "build:watch": "cd ui-kit && npm run build:watch",
     "setup": "cd ui-kit && npm i && npm run build && cd ../pizza-app && npm i"
   },
   "repository": {

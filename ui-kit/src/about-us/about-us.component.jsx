@@ -7,9 +7,11 @@ import {
 	StyledAboutUsText,
 } from './about-us.styles';
 import { aboutUsImageUrl } from './images';
+import { Anchor } from '../anchor/anchor.component';
 
 const AboutUsComponent = ({ id, children }) => (
-	<StyledAboutUsWrapper id={id}>
+	<StyledAboutUsWrapper>
+		<Anchor id={id} />
 		<Heading>О нас</Heading>
 		<StyledAboutUsContainer>
 			<img src={aboutUsImageUrl} alt="about us" />

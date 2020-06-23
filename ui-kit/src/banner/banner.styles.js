@@ -7,4 +7,5 @@ export const StyledBanner = styled.div`
 	background: url(${bannerImageUrl}) center no-repeat;
 	position: relative;
 	margin-bottom: 120px;
+	margin-top: 120px;
 `;

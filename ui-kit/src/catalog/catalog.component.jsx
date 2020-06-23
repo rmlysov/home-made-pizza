@@ -1,20 +1,22 @@
 import React, { memo } from 'react';
 import { Heading } from '../heading/heading.component';
 import { CatalogItem } from '../catalog-item/catalog-item.component';
+import { Anchor } from '../anchor/anchor.component';
 import { StyledCatalogWrapper, StyledCatalogContainer } from './catalog.styles';
 
-const CatalogComponent = ({ heading, items, id, onAddToBasket, onDeleteFromBasket, basketState = { basket: [] } }) => (
-	<StyledCatalogContainer id={id}>
+const CatalogComponent = ({ heading, items, id, onAddToCart, onDeleteFromCart, cartState = { cart: [] } }) => (
+	<StyledCatalogContainer>
+		<Anchor id={id} />
 		<Heading>{heading}</Heading>
 		<StyledCatalogWrapper>
 			{items.map((item, index) => {
-				const accordingItemInState = basketState.basket.find((stateItem) => item.title === stateItem.title);
+				const accordingItemInState = cartState.cart.find((stateItem) => item.title === stateItem.title);
 				return (
 					<CatalogItem
 						item={item}
 						index={index}
-						onAddToBasket={onAddToBasket}
-						onDeleteFromBasket={onDeleteFromBasket}
+						onAddToCart={onAddToCart}
+						onDeleteFromCart={onDeleteFromCart}
 						accordingItemInState={accordingItemInState}
 						key={item.title}
 					/>

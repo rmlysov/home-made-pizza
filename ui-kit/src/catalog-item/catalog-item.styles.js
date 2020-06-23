@@ -8,6 +8,7 @@ export const StyledCatalogItem = styled.div`
 	margin-right: 40px;
 	box-sizing: border-box;
 	position: relative;
+	flex-shrink: 0;
 
 	&:last-child {
 		margin-right: 0;
@@ -89,7 +90,7 @@ export const StyledCatalogItemPrice = styled.div`
 	position: relative;
 `;
 
-export const StyledCatalogItemBasketButton = styled.button`
+export const StyledCatalogItemCartButton = styled.button`
 	background-color: #ffffff;
 	width: 131px;
 	height: 37px;

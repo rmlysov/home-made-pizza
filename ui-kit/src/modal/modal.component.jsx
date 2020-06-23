@@ -60,7 +60,7 @@ const ModalComponent = ({ isOpen = false, onClose, children }) => {
 	return (
 		<StyledModalShadow>
 			<StyledModalContent ref={wrapperRef} onTransitionEnd={handleTransitionEnd} isOpen={isOpen}>
-				<StyledCloseButton onClick={onClose} />
+				<StyledCloseButton onClick={onClose} id="modal-close-button" />
 				{children}
 			</StyledModalContent>
 		</StyledModalShadow>

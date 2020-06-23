@@ -2,14 +2,14 @@ import React, { memo } from 'react';
 import { StyledHeaderLogo, StyledHeader } from './header.styles';
 import { MainMenu } from '../main-menu/main-menu.component';
 import { Phone } from '../phone/phone.component';
-import { BasketButton } from '../basket-button/basket-button.component';
+import { CartButton } from '../cart-button/cart-button.component';
 
-const HeaderComponent = ({ menuItems, basketCount, onModalOpen, renderLinkWrapper, menuColor }) => (
+const HeaderComponent = ({ menuItems, cartCount, onModalOpen, renderLinkWrapper, menuColor }) => (
 	<StyledHeader>
 		<StyledHeaderLogo />
-		<MainMenu menu={menuItems} renderLinkWrapper={renderLinkWrapper} color={menuColor} />
+		<MainMenu menu={menuItems} renderLinkWrapper={renderLinkWrapper} color={menuColor} idPrefix="header" />
 		<Phone phone="8-800-555-35-35" />
-		<BasketButton count={basketCount} onModalOpen={onModalOpen} />
+		<CartButton count={cartCount} onModalOpen={onModalOpen} />
 	</StyledHeader>
 );
 

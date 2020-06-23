@@ -1,6 +1,6 @@
 import { cheesePizzaImageUrl, calzoneImageUrl } from './stub-images/images';
 
-export const basketStub = {
+export const cartStub = {
 	basket: [
 		{
 			type: 'pizza',

@@ -37,7 +37,8 @@
   },
   "scripts": {
     "start": "start-storybook -p 6006 -c .storybook watch-css -s ./src",
-    "build": "rimraf ./dist/* && babel src --out-dir ./dist --copy-files --presets=@babel/preset-react"
+    "build": "rimraf ./dist/* && babel src --out-dir ./dist --copy-files --presets=@babel/preset-react",
+    "build:watch": "babel src --out-dir ./dist --copy-files --presets=@babel/preset-react --watch"
   },
   "author": "",
   "license": "ISC"

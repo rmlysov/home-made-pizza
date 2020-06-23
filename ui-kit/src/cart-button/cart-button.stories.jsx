@@ -1,5 +1,5 @@
 import React from 'react';
-import { BasketButton } from './basket-button.component';
+import { BasketButton } from './cart-button.component';
 
 export default { title: 'Basket Button' };
 

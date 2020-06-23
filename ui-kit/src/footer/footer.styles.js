@@ -27,6 +27,7 @@ export const StyledFooterPhoneWrapper = styled.div`
 	justify-content: center;
 	margin-left: 20px;
 	margin-top: 10px;
+	flex-shrink: 0;
 `;
 
 export const StyledSocialContainer = styled.div`
@@ -56,6 +57,7 @@ export const StyledCopyRight = styled.span`
 	color: #feb158;
 	margin-top: 54px;
 	margin-left: 176px;
+	flex-shrink: 0;
 `;
 
 export const StyledMenuWrapper = styled.div`

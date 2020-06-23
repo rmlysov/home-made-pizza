@@ -36,7 +36,7 @@ const FooterComponent = ({ menuItems, renderLinkWrapper, menuColor }) => {
 					</StyledSocialLogo>
 				</StyledSocialContainer>
 				<StyledMenuWrapper>
-					<MainMenu menu={menuItems} color={menuColor} renderLinkWrapper={renderLinkWrapper} />
+					<MainMenu menu={menuItems} color={menuColor} renderLinkWrapper={renderLinkWrapper} idPrefix="footer" />
 				</StyledMenuWrapper>
 				<StyledCopyRight>{copyright}</StyledCopyRight>
 			</StyledFooterContentWrapper>

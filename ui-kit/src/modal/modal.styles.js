@@ -30,6 +30,7 @@ export const StyledCloseButton = styled.button`
 	width: 23px;
 	height: 23px;
 	border: none;
-	top: 20px;
-	right: 20px;
+	top: 45px;
+	right: 30px;
+	z-index: 2000;
 `;

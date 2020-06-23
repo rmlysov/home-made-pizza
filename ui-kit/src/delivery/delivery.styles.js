@@ -7,6 +7,7 @@ export const StyledDeliveryList = styled.ul`
 	list-style: none;
 	margin: 0;
 	padding: 0;
+	flex-shrink: 0;
 
 	& > :nth-child(3n + 1) {
 		&::before {

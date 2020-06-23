@@ -12,7 +12,7 @@ import {
 	StyledBasketHeading3,
 } from './address-form.styles';
 
-const AddressFormComponent = ({ onSubmit }) => {
+const AddressFormComponent = ({ onSubmit, isError }) => {
 	const [isSelectOpen, setIsSelectOpen] = useState(false);
 	const [selectValue, setSelectValue] = useState('картой');
 	const [formState, setFormState] = useState({});
@@ -43,8 +43,8 @@ const AddressFormComponent = ({ onSubmit }) => {
 				<StyledBasketPayRow>
 					<StyledSelectWrapper onClick={handleSelectClick} isOpen={isSelectOpen}>
 						<StyledSelect onChange={handleSelectChange} name="payment">
-							<StyledOption>картой</StyledOption>
-							<StyledOption>наличными</StyledOption>
+							<StyledOption id="payment-option">картой</StyledOption>
+							<StyledOption id="payment-option">наличными</StyledOption>
 						</StyledSelect>
 					</StyledSelectWrapper>
 					<StyledTextInput
@@ -54,7 +54,7 @@ const AddressFormComponent = ({ onSubmit }) => {
 						onChange={handleFieldChange}
 					/>
 				</StyledBasketPayRow>
-				<StyledBasketSubmitButton>Заказать</StyledBasketSubmitButton>
+				<StyledBasketSubmitButton disabled={isError}>Заказать</StyledBasketSubmitButton>
 			</StyledAddressForm>
 		</>
 	);

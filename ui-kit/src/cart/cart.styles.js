@@ -1,23 +1,21 @@
 import styled from 'styled-components';
 import { lineImageUrl, lineCrossImageUrl, deleteImageUrl } from './images';
 
-export const StyledBasketWrapper = styled.div`
+export const StyledCartWrapper = styled.div`
 	width: 1000px;
 	background-color: #ffffff;
 	height: 90vh;
-	padding: 45px;
+	padding: 0 30px 45px 45px;
 	box-sizing: border-box;
-	overflow: auto;
 `;
 
-export const StyledBasketList = styled.ul`
+export const StyledCartList = styled.ul`
 	list-style: none;
 	margin: 0;
-	padding: 0;
-	margin-top: 40px;
+	padding: 0 15px 0 0;
 `;
 
-export const StyledBasketItem = styled.li`
+export const StyledCartItem = styled.li`
 	font-size: 24px;
 	line-height: 30px;
 	display: flex;
@@ -42,24 +40,24 @@ export const StyledControlsWrapper = styled.div`
 	margin-right: 186px;
 `;
 
-export const StyledBasketItemTitle = styled.span`
+export const StyledCartItemTitle = styled.span`
 	margin-right: auto;
 `;
 
 const commonButton =
 	'border: 1px solid #9B5900; border-radius: 10px; height: 62px; width: 44px; background-color: #ffffff;';
 
-export const StyledBasketDecreaseButton = styled.button`
+export const StyledCartDecreaseButton = styled.button`
 	${commonButton};
 	background: url(${lineImageUrl}) center no-repeat;
 `;
 
-export const StyledBasketIncreaseButton = styled.button`
+export const StyledCartIncreaseButton = styled.button`
 	${commonButton};
 	background: url(${lineImageUrl}) center no-repeat, url(${lineCrossImageUrl}) center no-repeat;
 `;
 
-export const StyledBasketItemPrice = styled.span`
+export const StyledCartItemPrice = styled.span`
 	width: 92px;
 `;
 
@@ -71,20 +69,35 @@ export const StyledDeleteButton = styled.button`
 	background-size: contain;
 `;
 
-export const StyledBasketCheck = styled.p`
+export const StyledCartCheck = styled.p`
 	font-size: 24px;
 	text-align: right;
 	margin: 10px 65px 0 0;
 `;
 
-export const StyledBasketError = styled.p`
+export const StyledCartError = styled.p`
 	font-size: 18px;
 	line-height: 32px;
 	color: #ff0100;
 `;
-export const StyledBasketEmptyMessage = styled.h3`
+export const StyledCartEmptyMessage = styled.h3`
 	font-size: 36px;
 	line-height: 36px;
 	text-align: center;
 	font-weight: 400;
+`;
+
+export const StyledCartHeader = styled.div`
+	position: fixed;
+	background-color: #ffffff;
+	height: 50px;
+	width: calc(100% - 90px);
+	padding-top: 45px;
+`;
+
+export const StyledCartContent = styled.div`
+	overflow: auto;
+	height: calc(90vh - 180px);
+	margin-top: 135px;
+	margin-bottom: 45px;
 `;

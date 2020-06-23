@@ -1,23 +1,23 @@
 import React, { useMemo, useState, useCallback, useReducer, memo } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { Banner, Basket, AddressForm, Catalog, DeliverySection, Footer, Header, Modal } from 'ui-kit';
+import { Banner, Cart, AddressForm, Catalog, DeliverySection, Footer, Header, Modal } from 'ui-kit';
 import { StyledAppContainer } from './app.styles';
 import { AboutUsSection } from './about-us-section/about-us-section.component';
 import { pizzaItems, drinksItems, menuItems } from './data-stub';
 import { HashLink } from './hash-link/hash-link.component';
 
-const initialState = { basket: [] };
+const initialState = { cart: [] };
 
 const reducer = (state, action) => {
 	switch (action.type) {
 		case 'ADD': {
-			const sameItem = state.basket.find((item) => item.title === action.payload.title);
+			const sameItem = state.cart.find((item) => item.title === action.payload.title);
 			if (sameItem === undefined) {
 				return {
-					basket: [...state.basket, action.payload],
+					cart: [...state.cart, action.payload],
 				};
 			}
-			const newBasket = state.basket.map((item) => {
+			const newCart = state.cart.map((item) => {
 				if (item.title === action.payload.title) {
 					return {
 						...item,
@@ -27,24 +27,24 @@ const reducer = (state, action) => {
 				return item;
 			});
 			return {
-				basket: newBasket,
+				cart: newCart,
 			};
 		}
 
 		case 'DELETE': {
-			const removingItem = state.basket.find((item) => item.title === action.payload.title);
-			const removingIndex = state.basket.findIndex((item) => item === removingItem);
-			const newBasket = [...state.basket];
-			newBasket.splice(removingIndex, 1);
+			const removingItem = state.cart.find((item) => item.title === action.payload.title);
+			const removingIndex = state.cart.findIndex((item) => item === removingItem);
+			const newCart = [...state.cart];
+			newCart.splice(removingIndex, 1);
 
 			return {
-				basket: newBasket,
+				cart: newCart,
 			};
 		}
 
 		case 'REMOVE': {
-			const removingItem = state.basket.find((item) => item.title === action.payload.title);
-			const newBasket = state.basket.map((item) => {
+			const removingItem = state.cart.find((item) => item.title === action.payload.title);
+			const newCart = state.cart.map((item) => {
 				if (item === removingItem && item.count > 1) {
 					return {
 						...item,
@@ -54,11 +54,11 @@ const reducer = (state, action) => {
 				return item;
 			});
 			return {
-				basket: newBasket,
+				cart: newCart,
 			};
 		}
 		case 'CLEAR': {
-			return { basket: [] };
+			return { cart: [] };
 		}
 		default: {
 			return state;
@@ -67,28 +67,28 @@ const reducer = (state, action) => {
 };
 
 function App() {
-	const [basketState, dispatch] = useReducer(reducer, initialState);
+	const [cartState, dispatch] = useReducer(reducer, initialState);
 	const [isOrderSent, setIsOrderSent] = useState(false);
 	const handleResetIsOrderSent = () => setIsOrderSent(false);
-	const handleAddToBasket = (payload) => () =>
+	const handleAddToCart = (payload) => () =>
 		dispatch({
 			type: 'ADD',
 			payload,
 		});
 
-	const handleDeleteFromBasket = (payload) => () =>
+	const handleDeleteFromCart = (payload) => () =>
 		dispatch({
 			type: 'DELETE',
 			payload,
 		});
 
-	const handleRemoveFromBasket = (payload) => () =>
+	const handleRemoveFromCart = (payload) => () =>
 		dispatch({
 			type: 'REMOVE',
 			payload,
 		});
 
-	const handleClearBasket = () =>
+	const handleClearCart = () =>
 		dispatch({
 			type: 'CLEAR',
 		});
@@ -96,30 +96,42 @@ function App() {
 	const handleOrderSubmit = (event) => {
 		event.preventDefault();
 		handleModalClose();
-		handleClearBasket();
+		handleClearCart();
 		setIsOrderSent(true);
 	};
 
-	const basketCount = useMemo(() => basketState.basket.reduce((acc, elem) => acc + elem.count, 0), [
-		basketState.basket,
-	]);
+	const cartCount = useMemo(() => cartState.cart.reduce((acc, elem) => acc + elem.count, 0), [cartState.cart]);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const handleModalOpen = useCallback(() => setIsModalOpen(true), []);
 	const handleModalClose = useCallback(() => setIsModalOpen(false), []);
 	const renderLinkWrapper = useCallback(
-		(children, anchor, color) => (
-			<HashLink to={anchor} color={color}>
+		(children, anchor, idPrefix, idKey) => (
+			<HashLink to={anchor} id={`${idPrefix}-menu-item`} key={idKey}>
 				{children}
 			</HashLink>
 		),
 		[]
 	);
+	const totalPizzasAndDrinks = useMemo(
+		() =>
+			cartState.cart.reduce(
+				(acc, elem) => {
+					const accIndex = elem.type === 'pizza' ? 0 : 1;
+					acc[accIndex] += elem.count;
+					return acc;
+				},
+				[0, 0]
+			),
+		[cartState]
+	);
+
+	const isError = useMemo(() => totalPizzasAndDrinks[0] > 5 || totalPizzasAndDrinks[1] > 4, [totalPizzasAndDrinks]);
 	return (
 		<Router>
 			<StyledAppContainer>
 				<Header
 					menuItems={menuItems}
-					basketCount={basketCount}
+					cartCount={cartCount}
 					onModalOpen={handleModalOpen}
 					renderLinkWrapper={renderLinkWrapper}
 					menuColor="#17181A"
@@ -129,35 +141,36 @@ function App() {
 					heading="Пицца"
 					items={pizzaItems}
 					id="pizza"
-					onAddToBasket={handleAddToBasket}
-					onDeleteFromBasket={handleDeleteFromBasket}
-					basketState={basketState}
+					onAddToCart={handleAddToCart}
+					onDeleteFromCart={handleDeleteFromCart}
+					cartState={cartState}
 				/>
 				<Catalog
 					heading="Напитки"
 					items={drinksItems}
 					id="drinks"
-					onAddToBasket={handleAddToBasket}
-					onDeleteFromBasket={handleDeleteFromBasket}
-					basketState={basketState}
+					onAddToCart={handleAddToCart}
+					onDeleteFromCart={handleDeleteFromCart}
+					cartState={cartState}
 				/>
 				<DeliverySection id="delivery" />
 				<AboutUsSection id="about-us" />
 			</StyledAppContainer>
 			<Footer menuItems={menuItems} renderLinkWrapper={renderLinkWrapper} menuColor="#ffffff" />
 			<Modal isOpen={isModalOpen} onClose={handleModalClose}>
-				<Basket
-					basketState={basketState}
+				<Cart
+					cartState={cartState}
 					onClose={handleModalClose}
-					onAddToBasket={handleAddToBasket}
-					onDeleteFromBasket={handleDeleteFromBasket}
-					onRemoveFromBasket={handleRemoveFromBasket}
-					onClearBasket={handleClearBasket}
+					onAddToCart={handleAddToCart}
+					onDeleteFromCart={handleDeleteFromCart}
+					onRemoveFromCart={handleRemoveFromCart}
+					onClearCart={handleClearCart}
 					onResetIsOrderSent={handleResetIsOrderSent}
 					isOrderSent={isOrderSent}
+					isError={isError}
 				>
-					<AddressForm onSubmit={handleOrderSubmit} />
-				</Basket>
+					<AddressForm onSubmit={handleOrderSubmit} isError={isError} />
+				</Cart>
 			</Modal>
 		</Router>
 	);

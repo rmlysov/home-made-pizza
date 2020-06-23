@@ -7,10 +7,12 @@ import {
 	StyledMapWrapper,
 	StyledDeliveryContainer,
 } from './delivery.styles';
+import { Anchor } from '../anchor/anchor.component';
 import { mapImageUrl } from './images';
 
 const DeliverySectionComponent = ({ id }) => (
-	<StyledDeliveryWrapper id={id}>
+	<StyledDeliveryWrapper>
+		<Anchor id={id} />
 		<Heading>Доставка</Heading>
 		<StyledDeliveryContainer>
 			<StyledDeliveryList>

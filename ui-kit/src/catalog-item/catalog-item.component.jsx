@@ -7,23 +7,23 @@ import {
 	StyledCatalogItemTitle,
 	StyledCatalogItemInfo,
 	StyledCatalogItemPrice,
-	StyledCatalogItemBasketButton,
+	StyledCatalogItemCartButton,
 	StyledImageWrapper,
 	StyledCatalogInfoRow,
 } from './catalog-item.styles';
 
-const CatalogItemComponent = ({ item, index, onAddToBasket = () => null, accordingItemInState }) => {
+const CatalogItemComponent = ({ item, index, onAddToCart = () => null, accordingItemInState }) => {
 	return (
-		<StyledCatalogItem>
+		<StyledCatalogItem id="product-item">
 			<StyledImageWrapper>
 				<StyledCatalogItemImage src={item.image} />
 			</StyledImageWrapper>
 			<StyledCatalogItemDescriptionRow>
-				<StyledCatalogItemTitle>{item.title}</StyledCatalogItemTitle>
-				<StyledCatalogItemInfo>
+				<StyledCatalogItemTitle id="product-name">{item.title}</StyledCatalogItemTitle>
+				<StyledCatalogItemInfo id="product-info-icon">
 					<>
 						i
-						<StyledCatalogInfoBlock index={index}>
+						<StyledCatalogInfoBlock index={index} id="product-info-block">
 							<StyledCatalogInfoRow>
 								<p>
 									{'Энергетическая ценность: '}
@@ -52,12 +52,12 @@ const CatalogItemComponent = ({ item, index, onAddToBasket = () => null, accordi
 				</StyledCatalogItemInfo>
 			</StyledCatalogItemDescriptionRow>
 			<StyledCatalogItemDescriptionRow>
-				<StyledCatalogItemPrice>{`${item.price} ₽`}</StyledCatalogItemPrice>
-				<StyledCatalogItemBasketButton onClick={onAddToBasket(item)}>
+				<StyledCatalogItemPrice id="product-price">{`${item.price} ₽`}</StyledCatalogItemPrice>
+				<StyledCatalogItemCartButton onClick={onAddToCart(item)} id="product-cart-button">
 					{accordingItemInState !== undefined && accordingItemInState.count > 0
 						? `В корзине: ${accordingItemInState.count}`
 						: 'В корзину'}
-				</StyledCatalogItemBasketButton>
+				</StyledCatalogItemCartButton>
 			</StyledCatalogItemDescriptionRow>
 		</StyledCatalogItem>
 	);
