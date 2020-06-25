@@ -20,9 +20,4 @@ export const StyledCatalogContainer = styled.div`
 	margin-bottom: 120px;
 `;
 
-export const StyledCatalogAnchor = styled.span`
-	display: block;
-	position: relative;
-	top: -120px;
-	visibility: hidden;
-`;
+

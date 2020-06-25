@@ -1,8 +1,12 @@
 import React from 'react';
-import { Basket } from './cart.component';
+import { Cart } from './cart.component';
 
 export default {
-	title: 'Basket',
+	title: 'Cart',
 };
 
-export const defaultBasket = () => <Basket />;
+export const defaultBasket = () => (
+	<div style={{ display: 'flex' }}>
+		<Cart />
+	</div>
+);

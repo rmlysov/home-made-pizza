@@ -287,6 +287,7 @@ module.exports = function (webpackEnv) {
 				}),
 				...(modules.webpackAliases || {}),
 				react: path.resolve('./node_modules/react'),
+				'styled-components': path.resolve('./node_modules/styled-components'),
 			},
 			plugins: [
 				// Adds support for installing with Plug'n'Play, leading to faster installs and adding

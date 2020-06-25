@@ -25,7 +25,7 @@ const CartComponent = ({
 	onDeleteFromCart = () => null,
 	onRemoveFromCart = () => null,
 	children,
-	onResetIsOrderSent,
+	onResetIsOrderSent = () => null,
 	isOrderSent,
 	isError,
 }) => {

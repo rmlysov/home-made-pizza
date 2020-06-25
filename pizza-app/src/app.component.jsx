@@ -66,7 +66,7 @@ const reducer = (state, action) => {
 	}
 };
 
-function App() {
+export const App = () => {
 	const [cartState, dispatch] = useReducer(reducer, initialState);
 	const [isOrderSent, setIsOrderSent] = useState(false);
 	const handleResetIsOrderSent = () => setIsOrderSent(false);
@@ -174,6 +174,6 @@ function App() {
 			</Modal>
 		</Router>
 	);
-}
+};
 
 export default memo(App);
