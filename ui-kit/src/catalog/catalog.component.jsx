@@ -10,7 +10,7 @@ const CatalogComponent = ({ heading, items, id, onAddToCart, onDeleteFromCart, c
 		<Heading>{heading}</Heading>
 		<StyledCatalogWrapper>
 			{items.map((item, index) => {
-				const accordingItemInState = cartState.cart.find((stateItem) => item.title === stateItem.title);
+				const accordingItemInState = cartState.cart.find((stateItem) => item.id === stateItem.id);
 				return (
 					<CatalogItem
 						item={item}
@@ -18,7 +18,7 @@ const CatalogComponent = ({ heading, items, id, onAddToCart, onDeleteFromCart, c
 						onAddToCart={onAddToCart}
 						onDeleteFromCart={onDeleteFromCart}
 						accordingItemInState={accordingItemInState}
-						key={item.title}
+						key={item.id}
 					/>
 				);
 			})}

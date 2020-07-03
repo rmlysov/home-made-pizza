@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import {
 	meatPizzaImageUrl,
 	cheesePizzaImageUrl,
@@ -10,9 +11,9 @@ import {
 
 export const pizzaItems = [
 	{
+		id: uuidv4(),
 		type: 'pizza',
-		count: 1,
-		title: 'Мясная',
+		productName: 'Мясная',
 		price: 349,
 		description: {
 			energy: 550,
@@ -21,11 +22,12 @@ export const pizzaItems = [
 			carb: 80,
 		},
 		image: meatPizzaImageUrl,
+		nutritionalValue: 'Б: 10, Ж: 10, У: 80',
 	},
 	{
 		type: 'pizza',
-		count: 1,
-		title: 'Фирменная',
+		id: uuidv4(),
+		productName: 'Фирменная',
 		price: 399,
 		description: {
 			energy: 600,
@@ -34,11 +36,12 @@ export const pizzaItems = [
 			carb: 90,
 		},
 		image: classPizzaImageUrl,
+		nutritionalValue: 'Б: 15, Ж: 10, У: 90',
 	},
 	{
 		type: 'pizza',
-		count: 1,
-		title: '4 сыра',
+		id: uuidv4(),
+		productName: '4 сыра',
 		price: 349,
 		description: {
 			energy: 500,
@@ -47,11 +50,12 @@ export const pizzaItems = [
 			carb: 70,
 		},
 		image: cheesePizzaImageUrl,
+		nutritionalValue: 'Б: 5, Ж: 20, У: 70',
 	},
 	{
 		type: 'pizza',
-		count: 1,
-		title: 'Кальцоне с грибами',
+		id: uuidv4(),
+		productName: 'Кальцоне с грибами',
 		price: 299,
 		description: {
 			energy: 400,
@@ -60,33 +64,37 @@ export const pizzaItems = [
 			carb: 60,
 		},
 		image: calzoneImageUrl,
+		nutritionalValue: 'Б: 5, Ж: 5, У: 60',
 	},
 ];
 
 export const drinksItems = [
 	{
 		type: 'drink',
-		count: 1,
-		title: 'Домашний морс',
+		id: uuidv4(),
+		productName: 'Домашний морс',
 		price: 99,
 		description: '',
 		image: fruitDrinkImageUrl,
+		nutritionalValue: 'Б: 0, Ж: 1, У: 5',
 	},
 	{
 		type: 'drink',
-		count: 1,
-		title: 'Газировка',
+		id: uuidv4(),
+		productName: 'Газировка',
 		price: 99,
 		description: '',
 		image: gasDrinkImageUrl,
+		nutritionalValue: 'Б: 0, Ж: 2, У: 10',
 	},
 	{
 		type: 'drink',
-		count: 1,
-		title: 'Минеральная вода',
+		id: uuidv4(),
+		productName: 'Минеральная вода',
 		price: 49,
 		description: '',
 		image: stillWaterImageUrl,
+		nutritionalValue: 'Б: 0, Ж: 0, У: 1',
 	},
 ];
 

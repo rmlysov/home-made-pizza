@@ -5,6 +5,7 @@
   "scripts": {
     "start:ui-kit": "cd ui-kit && npm start",
     "start:pizza-app": "cd pizza-app && npm start",
+    "start:pizza-app-mock-api": "cd pizza-app && npm run start:mock-api",
     "build:ui-kit": "cd ui-kit && npm run build",
     "build:watch": "cd ui-kit && npm run build:watch",
     "setup": "cd ui-kit && npm i && npm run build && cd ../pizza-app && npm i"

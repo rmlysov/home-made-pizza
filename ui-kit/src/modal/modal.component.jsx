@@ -28,7 +28,7 @@ const ModalComponent = ({ isOpen = false, onClose, children }) => {
 
 	useEffect(() => {
 		const { body } = document;
-		document.body.addEventListener('mousedown', handleMouseOutsideClick);
+		body.addEventListener('mousedown', handleMouseOutsideClick);
 
 		if (isOpen) {
 			appearAnimationTimeoutId.current = setTimeout(() => {

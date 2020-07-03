@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useEffect } from 'react';
+import React, { memo, useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Heading } from '../heading/heading.component';
 import {
@@ -25,16 +25,11 @@ const CartComponent = ({
 	onDeleteFromCart = () => null,
 	onRemoveFromCart = () => null,
 	children,
-	onResetIsOrderSent = () => null,
 	isOrderSent,
 	isError,
 }) => {
 	const cartSum = useMemo(() => cartState.cart.reduce((acc, elem) => acc + elem.price * elem.count, 0), [cartState]);
-	useEffect(() => {
-		return () => {
-			onResetIsOrderSent();
-		};
-	});
+
 	return (
 		<StyledCartWrapper>
 			<StyledCartHeader>
@@ -46,7 +41,7 @@ const CartComponent = ({
 						<StyledCartList>
 							{cartState.cart.map((item) => (
 								<StyledCartItem key={uuidv4()} id="cart-item">
-									<StyledCartItemTitle id="cart-item-name">{item.title}</StyledCartItemTitle>
+									<StyledCartItemTitle id="cart-item-name">{item.productName}</StyledCartItemTitle>
 									<StyledControlsWrapper>
 										<StyledCartDecreaseButton onClick={onRemoveFromCart(item)} id="cart-item-decrease-button" />
 										<span id="cart-item-count">{item.count}</span>

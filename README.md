@@ -18,10 +18,16 @@ npm run setup
 
 ### Запуск проекта
 
-Запуск приложения
+Запуск приложения c реальным API backend
 
 ```
 npm run start:pizza-app
+```
+
+Запуск приложения c mock-данными
+
+```
+npm run start:pizza-app-mock-api
 ```
 
 Запуск ui-kit
