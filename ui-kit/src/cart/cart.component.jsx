@@ -27,6 +27,8 @@ const CartComponent = ({
 	children,
 	isOrderSent,
 	isError,
+	isOrderSubmitError,
+	isOrderSending,
 }) => {
 	const cartSum = useMemo(() => cartState.cart.reduce((acc, elem) => acc + elem.price * elem.count, 0), [cartState]);
 
@@ -63,8 +65,12 @@ const CartComponent = ({
 						</StyledCartCheck>
 						{children}
 					</>
+				) : isOrderSending ? (
+					<StyledCartEmptyMessage>Оформление заказа...</StyledCartEmptyMessage>
 				) : isOrderSent ? (
 					<StyledCartEmptyMessage>Заказ отправлен, спасибо!</StyledCartEmptyMessage>
+				) : isOrderSubmitError ? (
+					<StyledCartEmptyMessage>Произошла ошибка, пожалуйста, попробуйте еще раз</StyledCartEmptyMessage>
 				) : (
 					<StyledCartEmptyMessage>Корзина пуста</StyledCartEmptyMessage>
 				)}

@@ -2,19 +2,12 @@ import React, { useMemo, useState, useCallback, useReducer, memo, useEffect } fr
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Banner, Cart, AddressForm, Catalog, DeliverySection, Footer, Header, Modal } from 'ui-kit';
 import { v4 as uuidv4 } from 'uuid';
-import { StyledAppContainer } from './app.styles';
+import { StyledAppContainer, StyledMessage } from './app.styles';
 import { AboutUsSection } from './about-us-section/about-us-section.component';
-import { pizzaItems, drinksItems, menuItems } from './data-stub';
+import { pizzaItems, drinksItems, menuItems, imagesMapper } from './data-stub';
 import { HashLink } from './hash-link/hash-link.component';
 import { getJson, postJson } from './services';
 import { getProductsEndpoint, createOrderEndpoint } from './endpoints';
-import {
-	cheesePizzaImageUrl,
-	meatPizzaImageUrl,
-	classPizzaImageUrl,
-	fruitDrinkImageUrl,
-	stillWaterImageUrl,
-} from './images';
 
 const initialState = { cart: [] };
 const reducer = (state, action) => {
@@ -79,18 +72,10 @@ const reducer = (state, action) => {
 	}
 };
 
-const imagesMapper = {
-	'Сыр сыр': cheesePizzaImageUrl,
-	Мексиканская: meatPizzaImageUrl,
-	'От Шефа': classPizzaImageUrl,
-	'Молоко Афанасий': stillWaterImageUrl,
-	'Вятский квас': fruitDrinkImageUrl,
-};
-
 const prepareCartToSend = (acc, currentItem) => {
 	const item = { ...currentItem };
 	let itemCount = currentItem.count;
-	delete item.count;
+	['count', 'image'].forEach((prop) => delete item[prop]);
 	while (itemCount > 0) {
 		acc.push(item);
 		itemCount -= 1;
@@ -103,11 +88,18 @@ export const App = () => {
 	const [drinksState, setDrinksState] = useState([]);
 	const [cartState, dispatch] = useReducer(reducer, initialState);
 	const [isOrderSent, setIsOrderSent] = useState(false);
+	const [isProductsLoading, setIsProductsLoading] = useState(false);
+	const [isProductsFetchError, setIsProductsFetchError] = useState(false);
+	const [isOrderSubmitError, setIsOrderSubmitError] = useState(false);
+	const [isOrderSending, setIsOrderSending] = useState(false);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
 	const handleAddToCart = (payload) => () =>
 		dispatch({
 			type: 'ADD',
 			payload,
 		});
+
 	const handleDeleteFromCart = (payload) => () =>
 		dispatch({
 			type: 'DELETE',
@@ -130,21 +122,36 @@ export const App = () => {
 			setIsOrderSent(true);
 			return;
 		}
-		postJson(createOrderEndpoint, payload).then((response) => {
-			setIsOrderSent(response);
-		});
+		setIsOrderSubmitError(false);
+		postJson(createOrderEndpoint, payload)
+			.then((response) => {
+				setIsOrderSent(response);
+				setIsOrderSending(false);
+			})
+			.catch(() => {
+				setIsOrderSubmitError(true);
+				setIsOrderSending(false);
+			});
 	};
 
 	const handleOrderSubmit = (addressData) => (event) => {
 		event.preventDefault();
+		setIsOrderSending(true);
 		const orderPayload = {
 			id: uuidv4(),
-			productId: cartState.cart.reduce(prepareCartToSend, []),
+			products: cartState.cart.reduce(prepareCartToSend, []),
 			...addressData,
 		};
 		handleCreateOrder(orderPayload);
 		handleClearCart();
 	};
+
+	const handleModalOpen = useCallback(() => setIsModalOpen(true), []);
+	const handleModalClose = useCallback(() => {
+		setIsOrderSent(false);
+		setIsModalOpen(false);
+	}, []);
+
 	const cartCount = useMemo(
 		() =>
 			cartState.cart.reduce((acc, elem) => {
@@ -152,12 +159,7 @@ export const App = () => {
 			}, 0),
 		[cartState.cart]
 	);
-	const [isModalOpen, setIsModalOpen] = useState(false);
-	const handleModalOpen = useCallback(() => setIsModalOpen(true), []);
-	const handleModalClose = useCallback(() => {
-		setIsOrderSent(false);
-		setIsModalOpen(false);
-	}, []);
+
 	const renderLinkWrapper = useCallback(
 		(children, anchor, idPrefix, idKey) => (
 			<HashLink to={anchor} id={`${idPrefix}-menu-item`} key={idKey}>
@@ -181,32 +183,39 @@ export const App = () => {
 
 	const isError = useMemo(() => totalPizzasAndDrinks[0] > 5 || totalPizzasAndDrinks[1] > 4, [totalPizzasAndDrinks]);
 
-	const fetchProducts = () => {
-		getJson(getProductsEndpoint).then((products) => {
-			const groupedProducts = products.reduce(
-				(acc, product) => {
-					const isPizza = product.pizzaType !== undefined;
-					const productWithImage = {
-						...product,
-						image: imagesMapper[product.productName],
-						type: isPizza ? 'pizza' : 'drink',
-					};
-					isPizza ? acc.pizza.push(productWithImage) : acc.drinks.push(productWithImage);
-					return acc;
-				},
-				{ pizza: [], drinks: [] }
-			);
+	const fetchProducts = useCallback(() => {
+		setIsProductsLoading(true);
+		getJson(getProductsEndpoint)
+			.then((products) => {
+				const groupedProducts = products.reduce(
+					(acc, product) => {
+						const isPizza = product.pizzaType !== undefined;
+						const productWithImage = {
+							...product,
+							image: imagesMapper[product.productName],
+							type: isPizza ? 'pizza' : 'drink',
+						};
+						isPizza ? acc.pizza.push(productWithImage) : acc.drinks.push(productWithImage);
+						return acc;
+					},
+					{ pizza: [], drinks: [] }
+				);
 
-			setPizzaState(groupedProducts.pizza);
-			setDrinksState(groupedProducts.drinks);
-		});
-	};
+				setPizzaState(groupedProducts.pizza);
+				setDrinksState(groupedProducts.drinks);
+				setIsProductsLoading(false);
+			})
+			.catch(() => {
+				setIsProductsFetchError(true);
+				setIsProductsLoading(false);
+			});
+	}, []);
 
 	useEffect(() => {
 		if (process.env.API_MOCK === 'false') {
 			fetchProducts();
 		}
-	}, []);
+	}, [fetchProducts]);
 
 	return (
 		<Router>
@@ -219,22 +228,30 @@ export const App = () => {
 					menuColor="#17181A"
 				/>
 				<Banner />
-				<Catalog
-					heading="Пицца"
-					items={process.env.API_MOCK === 'false' ? pizzaState : pizzaItems}
-					id="pizza"
-					onAddToCart={handleAddToCart}
-					onDeleteFromCart={handleDeleteFromCart}
-					cartState={cartState}
-				/>
-				<Catalog
-					heading="Напитки"
-					items={process.env.API_MOCK === 'false' ? drinksState : drinksItems}
-					id="drinks"
-					onAddToCart={handleAddToCart}
-					onDeleteFromCart={handleDeleteFromCart}
-					cartState={cartState}
-				/>
+				{isProductsFetchError ? (
+					<StyledMessage>Не удалось загрузить список продуктов</StyledMessage>
+				) : isProductsLoading ? (
+					<StyledMessage>Загрузка...</StyledMessage>
+				) : (
+					<>
+						<Catalog
+							heading="Пицца"
+							items={process.env.API_MOCK === 'false' ? pizzaState : pizzaItems}
+							id="pizza"
+							onAddToCart={handleAddToCart}
+							onDeleteFromCart={handleDeleteFromCart}
+							cartState={cartState}
+						/>
+						<Catalog
+							heading="Напитки"
+							items={process.env.API_MOCK === 'false' ? drinksState : drinksItems}
+							id="drinks"
+							onAddToCart={handleAddToCart}
+							onDeleteFromCart={handleDeleteFromCart}
+							cartState={cartState}
+						/>
+					</>
+				)}
 				<DeliverySection id="delivery" />
 				<AboutUsSection id="about-us" />
 			</StyledAppContainer>
@@ -249,6 +266,8 @@ export const App = () => {
 					onClearCart={handleClearCart}
 					isOrderSent={isOrderSent}
 					isError={isError}
+					isOrderSubmitError={isOrderSubmitError}
+					isOrderSending={isOrderSending}
 				>
 					<AddressForm onSubmit={handleOrderSubmit} isError={isError} />
 				</Cart>

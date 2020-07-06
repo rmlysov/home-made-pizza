@@ -116,3 +116,11 @@ export const menuItems = [
 		anchor: 'about-us',
 	},
 ];
+
+export const imagesMapper = {
+	'Сыр сыр': cheesePizzaImageUrl,
+	Мексиканская: meatPizzaImageUrl,
+	'От Шефа': classPizzaImageUrl,
+	'Молоко Афанасий': stillWaterImageUrl,
+	'Вятский квас': fruitDrinkImageUrl,
+};

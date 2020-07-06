@@ -14,6 +14,6 @@ export const postJson = async (url, payload) => {
 		const response = await axios.post(url, payload);
 		return response.data;
 	} catch (e) {
-		return new Error(e);
+		throw new Error(e);
 	}
 };

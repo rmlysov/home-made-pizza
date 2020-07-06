@@ -88,6 +88,7 @@ export const StyledBasketSubmitButton = styled.button`
 	font-size: 36px;
 	line-height: 70px;
 	margin-top: 40px;
+	opacity: ${(props) => (props.disabled ? '0.5' : '1')};
 `;
 
 export const StyledBasketHeading3 = styled.h3`

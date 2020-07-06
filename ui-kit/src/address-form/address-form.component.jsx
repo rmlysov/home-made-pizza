@@ -64,13 +64,13 @@ const AddressFormComponent = ({
 			<StyledBasketHeading3>Адрес доставки</StyledBasketHeading3>
 			<StyledAddressForm onSubmit={onSubmit(formState)}>
 				<StyledTextInputsRow>
-					<StyledTextInput placeholder="адрес" name="address" onChange={handleFieldChange} />
+					<StyledTextInput placeholder="адрес" name="address" onChange={handleFieldChange} required />
 				</StyledTextInputsRow>
 				<StyledBasketHeading3>Заказчик</StyledBasketHeading3>
 				<StyledTextInputsRow>
-					<StyledTextInput placeholder="ФИО" name="name" onChange={handleFieldChange} />
+					<StyledTextInput placeholder="ФИО" name="name" onChange={handleFieldChange} required />
 				</StyledTextInputsRow>
-				<StyledTextInput placeholder="телефон" name="phone" onChange={handleFieldChange} />
+				<StyledTextInput placeholder="телефон" name="phoneNumber" onChange={handleFieldChange} required />
 				<StyledBasketHeading3>Способ оплаты</StyledBasketHeading3>
 				<StyledBasketPayRow>
 					<StyledSelectWrapper onClick={handleSelectClick} isOpen={isSelectOpen}>
